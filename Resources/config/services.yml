@@ -1,8 +1,6 @@
 parameters:
     codemedo.config.class:        Aqpglug\CodemedoBundle\Extension\Config
     codemedo.twig.class:          Aqpglug\CodemedoBundle\Twig\Config
-    codemedo.menu.class:          Aqpglug\CodemedoBundle\Extension\Menu
-    codemedo.twig.utils.class:    Aqpglug\CodemedoBundle\Twig\Utils
 
 services:
     codemedo:
@@ -11,16 +9,5 @@ services:
     codemedo.twig:
         class:        %codemedo.twig.class%
         arguments:    [@codemedo]
-        tags:
-            -  { name: twig.extension }
-
-    codemedo.menu:
-        class:        %codemedo.menu.class%
-        arguments:    [@codemedo, @router, @session]
-        tags:
-            -  { name: twig.extension }
-    
-    codemedo.twig.utils:
-        class:        %codemedo.twig.utils.class%
         tags:
             -  { name: twig.extension }

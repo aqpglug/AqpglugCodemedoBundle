@@ -1,34 +1,3 @@
 homepage: home
 
-types:
-  article:
-    label: Artículo
-    metadata: [resume]
-  project:
-    label: Proyecto
-    metadata: [url]
-  event:
-    label: Evento
-    metadata:
-      resume: ~
-      date: datetime
-      lat: ~
-      lng: ~
-  member:
-    label: Miembro
-    metadata: [url]
-
-menu:
-  main:
-    Inicio:       homepage
-    Artículos:    _article
-    Proyectos:    _project
-    Eventos:      _event
-    Comunidad:    _member
-    Contacto:
-      url:      _page_show
-      params:   { slug: contacto }
-  
-  external:
-    Google:     http://google.com.pe
-    Yahoo:      http://yahoo.com
+types: []
