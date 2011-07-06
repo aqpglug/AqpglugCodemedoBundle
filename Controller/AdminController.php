@@ -12,7 +12,7 @@ use Aqpglug\CodemedoBundle\Entity\Block;
 use Aqpglug\CodemedoBundle\Form\BlockType;
 
 /**
- * @Route("")
+ * @Route("/block")
  * @Secure(roles="ROLE_ADMIN")
  */
 class AdminController extends BaseController

@@ -30,7 +30,7 @@ class PageController extends BaseController
     }
 
     /**
-     * @Route("/page/{slug}", name="_page_show")
+     * @Route("/{slug}", name="block_page_show")
      */
     public function showAction($slug)
     {
