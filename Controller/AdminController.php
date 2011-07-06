@@ -13,13 +13,13 @@ use Aqpglug\CodemedoBundle\Form\BlockType;
 
 /**
  * @Route("/block")
- * @Secure(roles="ROLE_ADMIN")
  */
 class AdminController extends BaseController
 {
 
     /**
      * @Route("/list/{type}/{page}", name="block_list", defaults={"page"=1, "type"="page"})
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function listAction($type, $page)
     {
@@ -44,6 +44,7 @@ class AdminController extends BaseController
 
     /**
      * @Route("/edit/{id}", name="_admin_edit")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function editAction($id)
     {
@@ -76,6 +77,7 @@ class AdminController extends BaseController
 
     /**
      * @Route("/{type}/new", name="_admin_new")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction($type)
     {
@@ -113,6 +115,7 @@ class AdminController extends BaseController
 
     /**
      * @Route("/remove/{id}", name="_admin_remove", requirements={"_method"="POST"})
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function removeAction($id)
     {
@@ -126,6 +129,7 @@ class AdminController extends BaseController
 
     /**
      * @Route("/publish/{id}", name="_admin_publish")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function publishAction($id)
     {
@@ -140,6 +144,7 @@ class AdminController extends BaseController
 
     /**
      * @Route("/feature/{id}", name="_admin_feature")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function featureAction($id)
     {
