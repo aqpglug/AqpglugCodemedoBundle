@@ -2,11 +2,17 @@
 
 namespace Aqpglug\CodemedoBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as Base_Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Aqpglug\CodemedoBundle\Repository\BlockRepository;
 use Aqpglug\CodemedoBundle\Extension\Config;
 
-class Controller extends Base_Controller
+/**
+ * @Route("")
+ */
+class BaseController extends Controller
 {
 
     /**

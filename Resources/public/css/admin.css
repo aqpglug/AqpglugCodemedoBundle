@@ -35,7 +35,7 @@
 .list .pub { width: 2%; text-align: center; }
 .list .feat { width: 2%; text-align: center; }
 .list .date { width: 16%; text-align: center; }
-.list .actions { width: 6%; text-align: center; }
+.list .actions { width: 6%; }
 
 .list thead th {
     text-transform: uppercase;
@@ -113,15 +113,4 @@ form.block textarea.content {
 }
 #block_metadata label {
     width: 60px;
-}
-#block_metadata_date {
-    margin-left: 30px;
-}
-#datepicker {
-    font-size: 80%;
-    margin: 5px 0;
-}
-
-#datepicker .ui-datepicker-header {
-    height: 1.8em;
 }

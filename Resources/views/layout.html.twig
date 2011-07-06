@@ -1,23 +1,15 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}AQPGLUG{% endblock %}
+{% block title %}Codemedo{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('/bundles/aqpglugcodemedo/css/reset.css') }}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('/bundles/aqpglugcodemedo/css/yui.css') }}" />
     <link rel="stylesheet" type="text/css" media="all" href="{{ asset('/bundles/aqpglugcodemedo/css/base.css') }}" />
-    <script type="text/javascript" src="{{ asset('/bundles/aqpglugcodemedo/js/jquery-1.6.1.min.js') }}"></script>
 {% endblock %}
 
 {% block body %}
 <div id="container">
-    <div id="header">
-        <a href="{{ path('homepage') }}" >
-        <h1><span>AQPGLUG</span></h1>
-        </a>
-        <input id="search" class="icontext search" type="text" placeholder="Buscar" />
-        {{ menu('main', {'class': 'menu'}) }}
-    </div>
     <div id="content">
         {% block content %}
         {% endblock %}

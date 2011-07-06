@@ -4,16 +4,25 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" media="all" href="{{ asset('/bundles/aqpglugcodemedo/css/admin.css') }}" />
+    <link href="{{ asset('/bundles/aqpglugcodemedo/css/admin.css') }}" rel="stylesheet" type="text/css" media="all" />
 {% endblock %}
 
 {% block content %}
 <div id="admin">
-    
+
     {% block admin_menu %}
-        {% include 'AqpglugCodemedoBundle:Admin:menu.html.twig' %}
+        <ul class="submenu menu">
+        {% for type, label in get_labels %}
+            <li><a href="{{ path('block_list', {'type': type }) }}" >{{ label|trans }}</a></li>
+        {% endfor %}
+            <li>
+                <ul class="right">
+                    <li><a href="{{ path('_logout') }}" >Logout</a></li>
+                </ul>
+            </li>
+        </ul>
     {% endblock admin_menu %}
-    
+
     {% if app.session.hasFlash('error') %}
         <div id="flash_error" class="icontext warning">{{ app.session.flash('error') }}</div>
     {% endif %}

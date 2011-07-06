@@ -3,11 +3,12 @@
 namespace Aqpglug\CodemedoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Aqpglug\CodemedoBundle\Utils\Slug;
 
 /**
- * @ORM\Entity(repositoryClass="Aqpglug\CodemedoBundle\Repository\BlockRepository");
- * @ORM\Table(indexes={@ORM\Index("slug_idx", columns={"slug"}),
+ * @ORM\Entity(repositoryClass="Aqpglug\CodemedoBundle\Entity\BlockRepository");
+ * @ORM\Table(name="cmd_block", indexes={@ORM\Index("slug_idx", columns={"slug"}),
  *                     @ORM\Index("type_idx", columns={"type"})})
  */
 class Block
@@ -39,10 +40,19 @@ class Block
     protected $created;
     /** @ORM\Column(type="datetime") */
     protected $modified;
+    /**
+     * @ORM\OneToMany(targetEntity="Block", mappedBy="parent")
+     */
+    private $children;
+    /**
+     * @ORM\ManyToOne(targetEntity="Block", inversedBy="children")
+     */
+    private $parent;
 
     public function __construct()
     {
         $this->created = $this->modified = new \DateTime("now");
+        $this->children = new ArrayCollection();
     }
 
     public function getId()
@@ -80,7 +90,7 @@ class Block
     {
         $this->slug = $slug;
     }
-    
+
     public function autoslug()
     {
         if (!$this->slug)
@@ -157,4 +167,48 @@ class Block
         $this->modified = $modified;
     }
 
+    /**
+     *
+     * @return array
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     *
+     * @param array $children
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = $children;
+    }
+
+    /**
+     *
+     * @param Block $children
+     */
+    public function addChildren(Block $children)
+    {
+        $this->children->add($children);
+    }
+
+    /**
+     *
+     * @return Block
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     *
+     * @param Block $parent 
+     */
+    public function setParent(Block $parent)
+    {
+        $this->parent = $parent;
+    }
 }

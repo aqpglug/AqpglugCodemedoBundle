@@ -5,10 +5,10 @@
 {% block admin_menu %}{{ parent() }}
 <ul class="submenu">
     <li><span>{{ get_labels[type]}}</span></li>
-    <li><a href="{{ path('_admin_new', {'type': type}) }}" class="icontext plus" >Nuevo</a></li>
+    <li><a href="{{ path('_admin_new', {'type': type}) }}" class="icontext plus" >{{ 'new'|trans }}</a></li>
     {% if pages > 1 %}
     <li>
-        <ul class="submenu_right paginator">
+        <ul class="right paginator">
         {% for i in range(1, pages) %}
             {% if i == page %}<li class="currentpage">{{i}}</li>{% else %}
             <li>
@@ -27,15 +27,17 @@
     <table class="list">
         <thead>
             <tr>
+                {% trans %}
                 <th>ID</th>
-                <th>Título</th>
-                <th>Slug</th>
-                <th title="Publicado">p</th>
-                <th title="Destacado">d</th>
-                <th>Fecha</th>
-                <th></th>
+                <th>title</th>
+                <th>slug</th>
+                <th title="Published">published</th>
+                <th title="Featured">featured</th>
+                <th>created at</th>
+                <th>actions</th>
+                {% endtrans %}
             </tr>
-            
+
         </thead>
     {% for block in blocks %}
         <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
@@ -44,22 +46,21 @@
             <td class="slug">{{ block.slug }}</td>
             <td class="pub">
                 <a href="{{ path("_admin_publish", {'id': block.id}) }}" >
-                    <span class="icon {% if not block.published %}stop{%else%}tick{% endif %}"></span>
+                    <span class="icon {% if not block.published %}block{%else%}tick{% endif %}"></span>
                 </a>
             </td>
             <td class="feat">
                 <a href="{{ path("_admin_feature", {'id': block.id}) }}" >
-                    <span class="icon {% if not block.featured %}stop{%else%}tick{% endif %}"></span>
+                    <span class="icon {% if not block.featured %}block{%else%}tick{% endif %}"></span>
                 </a>
             </td>
             <td class="date">{{block.created|date("Y/m/d h:m")}}</td>
             <td class="actions">
                 <a class="remove" href="{{ path("_admin_remove", {'id': block.id}) }}"><span class="icon trash"></span></a>
-                <a class="preview" href="{{ path("_admin_preview", {'id': block.id}) }}"><span class="icon globe"></span></a>
             </td>
         </tr>
     {% endfor %}
-        
+
     </table>
 
     {% endif %}

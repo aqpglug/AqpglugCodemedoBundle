@@ -7,70 +7,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Aqpglug\CodemedoBundle\Controller\Controller;
+use Aqpglug\CodemedoBundle\Controller\BaseController;
 use Aqpglug\CodemedoBundle\Entity\Block;
 use Aqpglug\CodemedoBundle\Form\BlockType;
 
 /**
- * @Route("/admin")
+ * @Route("")
  * @Secure(roles="ROLE_ADMIN")
  */
-class AdminController extends Controller
+class AdminController extends BaseController
 {
 
     /**
-     * @Route("/login", name="_demo_login")
-     */
-    public function loginAction()
-    {
-        if($this->get('request')->attributes->has(SecurityContext::AUTHENTICATION_ERROR))
-        {
-            $error = $this->get('request')->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        }
-        else
-        {
-            $error = $this->get('request')->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
-        }
-
-        return $this->render('AqpglugCodemedoBundle:Admin:login.html.twig', array(
-            'last_username' => $this->get('request')->getSession()->get(SecurityContext::LAST_USERNAME),
-            'error' => $error,
-        ));
-    }
-
-    /**
-     * @Route("/login_check", name="_security_check")
-     */
-    public function securityCheckAction()
-    {
-        // The security layer will intercept this request
-    }
-
-    /**
-     * @Route("/logout", name="_logout")
-     */
-    public function logoutAction()
-    {
-        // The security layer will intercept this request
-    }
-
-    /**
-     * @Route("/", name="_admin")
-     */
-    public function indexAction()
-    {
-        $articles = $this->getRepo()->findBy(array(), array(
-                    'type' => 'ASC',
-                    'created' => 'DESC',
-                ));
-
-        return $this->render('AqpglugCodemedoBundle:Admin:index.html.twig', array(
-            'articles' => $articles,
-        ));
-    }
-
-    /**
-     * @Route("/list/{type}/{page}", name="_admin_list", defaults={"page"=1})
+     * @Route("/list/{type}/{page}", name="block_list", defaults={"page"=1, "type"="page"})
      */
     public function listAction($type, $page)
     {
@@ -79,7 +28,7 @@ class AdminController extends Controller
 
         $blocks = $this->getRepo()->findBy(
                         array('type' => $type,), array('created' => 'DESC',), $step, $step * ($page - 1));
-        
+
         // Algun bug en la session no borra la flash
         $this->getRequest()->getSession()->removeFlash('notice');
         if(!count($blocks))
@@ -114,7 +63,7 @@ class AdminController extends Controller
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($block);
                 $em->flush();
-                return $this->redirect($this->generateUrl('_admin_list', array('type' => $block->getType())));
+                return $this->redirect($this->generateUrl('block_list', array('type' => $block->getType())));
             }
         }
 
@@ -143,15 +92,15 @@ class AdminController extends Controller
 
             if($form->isValid())
             {
-                print_r($form['image']); die();
-                $block->setImage($this->saveImage($form['image'], md5(time()), $type));
+                //print_r($form['image']); die();
+                //$block->setImage($this->saveImage($form['image'], md5(time()), $type));
                 $block->autoslug();
                 $block->setType($type);
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($block);
                 $em->flush();
                 return $this->redirect($this->generateUrl(
-                                '_admin_list', array('type' => $block->getType())));
+                                'block_list', array('type' => $block->getType())));
             }
         }
 
@@ -172,9 +121,9 @@ class AdminController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($block);
         $em->flush();
-        return $this->redirect($this->generateUrl('_admin_list', array('type' => $type)));
+        return $this->redirect($this->generateUrl('block_list', array('type' => $type)));
     }
-    
+
     /**
      * @Route("/publish/{id}", name="_admin_publish")
      */
@@ -182,13 +131,13 @@ class AdminController extends Controller
     {
         $block = $this->getRepo()->findOneBy(array('id' => $id));
         $block->setPublished(!$block->getPublished());
-        
+
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($block);
         $em->flush();
-        return $this->redirect($this->generateUrl('_admin_list', array('type' => $block->getType())));
+        return $this->redirect($this->generateUrl('block_list', array('type' => $block->getType())));
     }
-    
+
     /**
      * @Route("/feature/{id}", name="_admin_feature")
      */
@@ -196,32 +145,13 @@ class AdminController extends Controller
     {
         $block = $this->getRepo()->findOneBy(array('id' => $id));
         $block->setFeatured(!$block->getFeatured());
-        
+
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($block);
         $em->flush();
-        return $this->redirect($this->generateUrl('_admin_list', array('type' => $block->getType())));
+        return $this->redirect($this->generateUrl('block_list', array('type' => $block->getType())));
     }
-    
-    /**
-     * @Route("/preview/{id}", name="_admin_preview")
-     */
-    public function previewAction($id)
-    {
-        $block = $this->getRepo()->findOneBy(array('id' => $id));
-        
-        try
-        {
-            $route = $this->generateUrl('_'.$block->getType().'_show', array('slug' => $block->getSlug()));
-        }
-        catch(\Symfony\Component\Routing\Exception\RouteNotFoundException $exc)
-        {
-            $this->getRequest()->getSession()->setFlash('notice', 'no se puede previsualizar');
-            $route = $this->getRequest()->headers->get('referer');
-        }
-        return $this->redirect($route);
-    }
-    
+
     private function saveImage(UploadedFile $file, $name, $type)
     {
         $extension = $file->guessExtension();

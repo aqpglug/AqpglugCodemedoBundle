@@ -2,41 +2,41 @@
 
 namespace Aqpglug\CodemedoBundle\Controller;
 
-use Aqpglug\CodemedoBundle\Controller\Controller;
+use Aqpglug\CodemedoBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @Route("/")
+ * @Route("")
  */
-class PageController extends Controller
+class PageController extends BaseController
 {
 
     /**
-     * @Route("", name="homepage")
+     * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function homeAction()
     {
         $homepage = $this->getConfig()->getHome();
-        
+
         $page = $this->getRepo()->findOnePublishedBy(array(
-            'type' =>'page',
-            'slug'=> $homepage));
-        
+                    'type' => 'page',
+                    'slug' => $homepage));
+
         return $this->render('AqpglugCodemedoBundle:Page:show.html.twig', array(
             'page' => $page,
         ));
     }
 
     /**
-     * @Route("{slug}", name="_page_show")
+     * @Route("/page/{slug}", name="_page_show")
      */
     public function showAction($slug)
     {
         $page = $this->getRepo()->findOnePublishedBy(array(
-            'type' =>'page',
-            'slug'=> $slug));
+                    'type' => 'page',
+                    'slug' => $slug));
 
         return $this->render('AqpglugCodemedoBundle:Page:show.html.twig', array(
             'page' => $page,

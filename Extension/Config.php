@@ -26,7 +26,7 @@ class Config
 
         // TYPES
 
-        $base_types = array('page' => array('label' => 'Página'));
+        $base_types = array('page' => array('label' => 'Page'));
 
         $this->data['types'] = array_merge($base_types, $this->data['types'] ? : array());
 
@@ -64,7 +64,7 @@ class Config
         }
         return $labels;
     }
-    
+
     public function getLabel($type)
     {
         $labels = $this->getLabels();
