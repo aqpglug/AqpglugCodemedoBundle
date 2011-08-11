@@ -20,6 +20,10 @@ class PageController extends BaseController
         $page = $this->getRepo()->findOnePublishedBy(array(
                     'type' => 'page',
                     'slug' => $slug));
+        
+        if (is_null($page)) {
+            throw $this->createNotFoundException("Página no encontrada");
+        }
 
         return $this->render('AqpglugCodemedoBundle:Page:show.html.twig', array(
             'page' => $page,
