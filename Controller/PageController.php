@@ -12,25 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PageController extends BaseController
 {
-
     /**
-     * @Route("/", name="homepage")
-     */
-    public function homeAction()
-    {
-        $homepage = $this->getConfig()->getHome();
-
-        $page = $this->getRepo()->findOnePublishedBy(array(
-                    'type' => 'page',
-                    'slug' => $homepage));
-
-        return $this->render('AqpglugCodemedoBundle:Page:show.html.twig', array(
-            'page' => $page,
-        ));
-    }
-
-    /**
-     * @Route("/{slug}", name="block_page_show")
+     * @Route("/{slug}", name="cmd_block_page_show", defaults={"slug"="homepage"})
      */
     public function showAction($slug)
     {
