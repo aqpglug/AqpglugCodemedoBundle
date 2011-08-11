@@ -18,7 +18,7 @@ class AdminController extends BaseController
 {
 
     /**
-     * @Route("/list/{type}/{page}", name="block_list", defaults={"page"=1, "type"="page"})
+     * @Route("/list/{type}/{page}", name="cmd_admin_block", defaults={"page"=1, "type"="page"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function listAction($type, $page)
@@ -43,7 +43,7 @@ class AdminController extends BaseController
     }
 
     /**
-     * @Route("/edit/{id}", name="_admin_edit")
+     * @Route("/edit/{id}", name="cmd_admin_block_edit")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function editAction($id)
@@ -64,19 +64,19 @@ class AdminController extends BaseController
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($block);
                 $em->flush();
-                return $this->redirect($this->generateUrl('block_list', array('type' => $block->getType())));
+                return $this->redirect($this->generateUrl('cmd_admin_block', array('type' => $block->getType())));
             }
         }
 
         return $this->render('AqpglugCodemedoBundle:Admin:form.html.twig', array(
             'form' => $form->createView(),
-            'form_action' => $this->generateUrl('_admin_edit', array('id' => $id)),
+            'form_action' => $this->generateUrl('cmd_admin_block_edit', array('id' => $id)),
             'type' => $block->getType(),
         ));
     }
 
     /**
-     * @Route("/{type}/new", name="_admin_new")
+     * @Route("/{type}/new", name="cmd_admin_block_new")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction($type)
@@ -102,19 +102,19 @@ class AdminController extends BaseController
                 $em->persist($block);
                 $em->flush();
                 return $this->redirect($this->generateUrl(
-                                'block_list', array('type' => $block->getType())));
+                                'cmd_admin_block', array('type' => $block->getType())));
             }
         }
 
         return $this->render('AqpglugCodemedoBundle:Admin:form.html.twig', array(
             'form' => $form->createView(),
-            'form_action' => $this->generateUrl('_admin_new', array('type' => $type)),
+            'form_action' => $this->generateUrl('cmd_admin_block_new', array('type' => $type)),
             'type' => $type,
         ));
     }
 
     /**
-     * @Route("/remove/{id}", name="_admin_remove", requirements={"_method"="POST"})
+     * @Route("/remove/{id}", name="cmd_admin_block_remove", requirements={"_method"="POST"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function removeAction($id)
@@ -124,11 +124,11 @@ class AdminController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($block);
         $em->flush();
-        return $this->redirect($this->generateUrl('block_list', array('type' => $type)));
+        return $this->redirect($this->generateUrl('cmd_admin_block', array('type' => $type)));
     }
 
     /**
-     * @Route("/publish/{id}", name="_admin_publish")
+     * @Route("/publish/{id}", name="cmd_admin_block_publish")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function publishAction($id)
@@ -139,11 +139,11 @@ class AdminController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($block);
         $em->flush();
-        return $this->redirect($this->generateUrl('block_list', array('type' => $block->getType())));
+        return $this->redirect($this->generateUrl('cmd_admin_block', array('type' => $block->getType())));
     }
 
     /**
-     * @Route("/feature/{id}", name="_admin_feature")
+     * @Route("/feature/{id}", name="cmd_admin_block_feature")
      * @Secure(roles="ROLE_ADMIN")
      */
     public function featureAction($id)
@@ -154,7 +154,7 @@ class AdminController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($block);
         $em->flush();
-        return $this->redirect($this->generateUrl('block_list', array('type' => $block->getType())));
+        return $this->redirect($this->generateUrl('cmd_admin_block', array('type' => $block->getType())));
     }
 
     private function saveImage(UploadedFile $file, $name, $type)

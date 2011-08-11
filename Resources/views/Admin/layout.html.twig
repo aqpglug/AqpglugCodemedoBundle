@@ -13,7 +13,7 @@
     {% block admin_menu %}
         <ul class="submenu menu">
         {% for type, label in get_labels %}
-            <li><a href="{{ path('block_list', {'type': type }) }}" >{{ label|trans }}</a></li>
+            <li><a href="{{ path('cmd_admin_block', {'type': type }) }}" >{{ label|trans }}</a></li>
         {% endfor %}
         </ul>
     {% endblock admin_menu %}
